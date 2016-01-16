@@ -12,11 +12,11 @@
 # Variables
 #########################
 
-SITENAME=$1
-URL=$2
+URL=$1
 STACKFILE=./sitestack.txt
 SITEHEADERS=./siteheaders.html
 SITECONTENT=./sitecontent.html
+SORTEDSITESTACK=./sortedsitestack.txt
 
 # Cleanup
 if [ -f $STACKFILE ] ; then
@@ -31,17 +31,21 @@ if [ -f $SITECONTENT ] ; then
     rm -f $SITECONTENT
 fi
 
+if [ -f $SORTEDSITESTACK ] ; then
+    rm -f $SORTEDSITESTACK
+fi
+
 # Output
 echo " "
 echo " "
-echo "You are scanning $SITENAME, which is located at $URL..."
+echo "Currently scanning $URL..."
 echo " "
 
 # Help
-if [[ $# -ne 2 && $# -ne 3 ]] ; then
+if [[ $# -ne 1 ]] ; then
     echo 'Usage:'
-    echo './TechStack sitename url'
-    echo 'Example: ./TechStack google https://google.com'
+    echo './TechStack url'
+    echo 'Example: ./TechStack google.com, or ./TechStack https://www.google.com'
     exit
 fi
 
@@ -103,6 +107,29 @@ then
 fi
 
 ###################
+## JOOMLA CHECKS
+###################
+
+# Check for administrator directory 
+JOOMLAADMIN="$(curl -skLA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25" -w "%{http_code}" "$URL/administrator/" -o ./sitecontent.html)" 
+
+# Check for status of requests 
+if [ "$JOOMLAADMIN" = "200" ] ; then
+    echo "[X] An admnistrator directory has been found in the root (Joomla?)."
+    echo "Joomla" >> ./sitestack.txt
+    echo "PHP" >> ./sitestack.txt
+fi
+
+# Check for Joomla in response 
+if grep -i generator ./sitecontent.html | grep -qi joomla 
+then
+    echo "[X] Joomla found in headers."
+    echo "Joomla" >> ./sitestack.txt
+    echo "PHP" >> ./sitestack.txt
+
+fi
+
+###################
 ## APACHE CHECKS
 ###################
 
@@ -125,6 +152,17 @@ then
 fi
 
 ###################
+## IIS CHECKS
+###################
+
+# Check for Nginx in response 
+if grep -i "Server:" ./siteheaders.html | grep -qi IIS
+then
+    echo "[X] IIS found in headers."
+    echo "IIS" >> ./sitestack.txt
+fi
+
+###################
 ## TLS CHECKS
 ###################
 
@@ -141,6 +179,92 @@ then
     echo "TLS" >> ./sitestack.txt
 fi
 
+###################
+## .NET CHECKS
+###################
+
+# Check for .NET in headers
+if grep -i "X-Powered-By:" ./siteheaders.html | grep NET
+then
+    echo "[X] .NET found in headers."
+    echo ".NET" >> ./sitestack.txt
+fi
+
+###################
+## PHP CHECKS
+###################
+
+# Check for PHP in headers
+if grep -i "X-Powered-By:" ./siteheaders.html | grep PHP
+then
+    echo "[X] PHP found in headers."
+    echo "PHP" >> ./sitestack.txt
+fi
+
+###################
+## CLOUDFLARE CHECKS
+###################
+
+# Check for Cloudflare in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi cloudflare
+then
+    echo "[X] Cloudflare found in headers."
+    echo "Cloudflare" >> ./sitestack.txt
+fi
+
+###################
+## EXPRESS CHECKS
+###################
+
+# Check for in Express in headers
+if grep -i "X-Powered-By:" ./siteheaders.html | grep -qi express
+then
+    echo "[X] Express found in headers."
+    echo "Express" >> ./sitestack.txt
+    echo "Node" >> ./sitestack.txt
+fi
+
+###################
+## JBOSS CHECKS
+###################
+
+# Check for in JBoss in headers
+if grep -i "X-Powered-By:" ./siteheaders.html | grep -qi jboss
+then
+    echo "[X] JBoss found in headers."
+    echo "JBoss" >> ./sitestack.txt
+fi
+
+###################
+## TOMCAT CHECKS
+###################
+
+# Check for in Tomcat in headers
+if grep -i "X-Powered-By:" ./siteheaders.html | grep -qi tomcat
+then
+    echo "[X] Tomcat found in headers."
+    echo "Tomcat" >> ./sitestack.txt
+fi
+
+###################
+## GITHUB Checks
+###################
+
+# Check for in Github in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi github
+then
+    echo "[X] Github found in headers."
+    echo "Github" >> ./sitestack.txt
+fi
+
+########################
+# CLEANUP
+########################
+
+if [ -f $STACKFILE ] ; then
+    sort ./sitestack.txt > ./sortedsitestack.txt
+    uniq ./sortedsitestack.txt > ./sitestack.txt
+fi
 
 #####################################################################################
 # OUTPUT
