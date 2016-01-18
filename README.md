@@ -1,2 +1,21 @@
-# techstack
-This project tells you the technology stack that a given website is running, e.g. web server, software, CMSs, etc., all from the attack surface perspective.
+                  ______
+               __/_*_*(_
+              / _______ \
+             _\_)/___\(_/_
+            / _((\- -/))_ \
+            \ \())(-)(()/ /
+             ' \(((()))/ '
+            / ' \)).))/ ' \
+           / _ \ - | - /_  \
+          (   ( .;''';. .'  )
+          _\"__ /    )\ __"/_
+            \/  \   ' /  \/
+             .'  '...' ' )
+              / /  |  \ \
+             / .   .   . \
+            /   .     .   \
+           /   /   |   \   \
+         .'   /    b    '.  '.
+     _.-'    /     Bb     '-. '-._
+ _.-'       |      BBb       '-.  '-.
+(________mrf\____.dBBBb.________)____)

@@ -14,8 +14,8 @@
 
 URL=$1
 STACKFILE=./sitestack.txt
-SITEHEADERS=./siteheaders.html
 SITECONTENT=./sitecontent.html
+OUTPUT=./output.html
 SORTEDSITESTACK=./sortedsitestack.txt
 
 # Cleanup
@@ -23,8 +23,8 @@ if [ -f $STACKFILE ] ; then
     rm -f $STACKFILE
 fi
 
-if [ -f $SITEHEADERS ] ; then
-    rm -f $SITEHEADERS
+if [ -f $OUTPUT ] ; then
+    rm -f $OUTPUT
 fi
 
 if [ -f $SITECONTENT ] ; then
@@ -54,17 +54,19 @@ fi
 ####################################################################################
 
 # Get headers
-curl -skLIA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25" "$URL" -o ./siteheaders.html
+curl -skLIA "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36" "$URL" -o ./output.html
+
+curl -sLKA "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36" "$URL" >> ./output.html
 
 ###################
 ## WORDPRESS CHECKS
 ###################
 
 # Check for wp-admin
-WPADMIN="$(curl -skLA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25" -w "%{http_code}" "$URL/wp-admin/" -o ./sitecontent.html)" 
 
-# Check for readme.txt in root
-WPREADME="$(curl -skLA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25" -w "%{http_code}" "$URL/readme.txt" -o ./sitecontent.html)" 
+WPADMIN="$(curl -skLKA "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36" -w "%{http_code}" "$URL/wp-admin/" -o ./sitecontent.html)" 
+
+WPREADME="$(curl -skLA "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36" -w "%{http_code}" "$URL/readme.txt" -o ./sitecontent.html)" 
 
 # Check for status of requests 
 if [ "$WPADMIN" = "200" ] && [ "$WPREADME" = "200" ]; then
@@ -134,7 +136,7 @@ fi
 ###################
 
 # Check for Apache in response 
-if grep -i "Server:" ./siteheaders.html | grep -qi apache 
+if grep -i "Server:" ./output.html | grep -qi apache 
 then
     echo "[X] Apache found in headers."
     echo "Apache" >> ./sitestack.txt
@@ -145,7 +147,7 @@ fi
 ###################
 
 # Check for Nginx in response 
-if grep -i "Server:" ./siteheaders.html | grep -qi nginx
+if grep -i "Server:" ./output.html | grep -qi nginx
 then
     echo "[X] Nginx found in headers."
     echo "Nginx" >> ./sitestack.txt
@@ -156,7 +158,7 @@ fi
 ###################
 
 # Check for Nginx in response 
-if grep -i "Server:" ./siteheaders.html | grep -qi IIS
+if grep -i "Server:" ./output.html | grep -qi IIS
 then
     echo "[X] IIS found in headers."
     echo "IIS" >> ./sitestack.txt
@@ -167,7 +169,7 @@ fi
 ###################
 
 # Check for HTTPS in redirect
-if grep -i "Location:" ./siteheaders.html | grep -qi https
+if grep -i "Location:" ./output.html | grep -qi https
 then
     echo "[X] TLS in URL or TLS redirect found in headers."
     echo "TLS" >> ./sitestack.txt
@@ -184,7 +186,7 @@ fi
 ###################
 
 # Check for .NET in headers
-if grep -i "X-Powered-By:" ./siteheaders.html | grep NET
+if grep -i "X-Powered-By:" ./output.html | grep NET
 then
     echo "[X] .NET found in headers."
     echo ".NET" >> ./sitestack.txt
@@ -195,7 +197,7 @@ fi
 ###################
 
 # Check for PHP in headers
-if grep -i "X-Powered-By:" ./siteheaders.html | grep PHP
+if grep -i "X-Powered-By:" ./output.html | grep PHP
 then
     echo "[X] PHP found in headers."
     echo "PHP" >> ./sitestack.txt
@@ -206,7 +208,7 @@ fi
 ###################
 
 # Check for Cloudflare in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi cloudflare
+if grep -i "Server:" ./output.html | grep -qi cloudflare
 then
     echo "[X] Cloudflare found in headers."
     echo "Cloudflare" >> ./sitestack.txt
@@ -217,7 +219,7 @@ fi
 ###################
 
 # Check for in Express in headers
-if grep -i "X-Powered-By:" ./siteheaders.html | grep -qi express
+if grep -i "X-Powered-By:" ./output.html | grep -qi express
 then
     echo "[X] Express found in headers."
     echo "Express" >> ./sitestack.txt
@@ -229,7 +231,7 @@ fi
 ###################
 
 # Check for in JBoss in headers
-if grep -i "X-Powered-By:" ./siteheaders.html | grep -qi jboss
+if grep -i "X-Powered-By:" ./output.html | grep -qi jboss
 then
     echo "[X] JBoss found in headers."
     echo "JBoss" >> ./sitestack.txt
@@ -240,7 +242,7 @@ fi
 ###################
 
 # Check for in Tomcat in headers
-if grep -i "X-Powered-By:" ./siteheaders.html | grep -qi tomcat
+if grep -i "X-Powered-By:" ./output.html | grep -qi tomcat
 then
     echo "[X] Tomcat found in headers."
     echo "Tomcat" >> ./sitestack.txt
@@ -251,7 +253,7 @@ fi
 ###################
 
 # Check for in Github in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi github
+if grep -i "Server:" ./output.html | grep -qi github
 then
     echo "[X] Github found in headers."
     echo "Github" >> ./sitestack.txt
@@ -262,7 +264,7 @@ fi
 ###################
 
 # Check for in GSE in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi gse
+if grep -i "Server:" ./output.html | grep -qi gse
 then
     echo "[X] GSEfound in headers."
     echo "GSE" >> ./sitestack.txt
@@ -273,7 +275,7 @@ fi
 ###################
 
 # Check for in AmazonS3 in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi amazons3
+if grep -i "Server:" ./output.html | grep -qi amazons3
 then
     echo "[X] Amazon S3 found in headers."
     echo "AmazonS3" >> ./sitestack.txt
@@ -284,7 +286,7 @@ fi
 ###################
 
 # Check for in Baidu in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi bws
+if grep -i "Server:" ./output.html | grep -qi bws
 then
     echo "[X] Amazon S3 found in headers."
     echo "BWS" >> ./sitestack.txt
@@ -295,7 +297,7 @@ fi
 ###################
 
 # Check for in ATS in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi ats
+if grep -i "Server:" ./output.html | grep -qi ats
 then
     echo "[X] Apache ATS found in headers."
     echo "ATS" >> ./sitestack.txt
@@ -306,7 +308,7 @@ fi
 ###################
 
 # Check for in ATS in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi squid
+if grep -i "Server:" ./output.html | grep -qi squid
 then
     echo "[X] Squid found in headers."
     echo "Squid" >> ./sitestack.txt
@@ -317,10 +319,42 @@ fi
 ###################
 
 # Check for in Weibo in headers
-if grep -i "Server:" ./siteheaders.html | grep -qi weibo
+if grep -i "Server:" ./output.html | grep -qi weibo
 then
     echo "[X] Weibo found in headers."
     echo "Weibo" >> ./sitestack.txt
+fi
+
+###################
+## GWS Checks
+###################
+
+# Check for in GWS in headers
+if grep -i "Server:" ./output.html | grep -qi gws
+then
+    echo "[X] GWS found in headers."
+    echo "GWS" >> ./sitestack.txt
+fi
+
+#####################################################################################
+# OUTPUT
+#####################################################################################
+
+if [ -f $STACKFILE ] ; then
+    echo " "
+    cat art.txt
+    echo " "
+    echo "The site APPEARS to be running..."
+    echo " "
+    echo "--"
+    cat ./sitestack.txt
+    echo "--"
+    echo " "
+    echo "NOTE: It's easy to fool this kind of magic."
+else
+    echo " "
+    echo "No technologies were detected on this site."
+    echo " "
 fi
 
 ########################
@@ -332,22 +366,19 @@ if [ -f $STACKFILE ] ; then
     uniq ./sortedsitestack.txt > ./sitestack.txt
 fi
 
-#####################################################################################
-# OUTPUT
-#####################################################################################
-
+# Cleanup
 if [ -f $STACKFILE ] ; then
-    echo " "
-    echo " "
-    echo "##############################################################"
-    echo "# NOTE: Tricking this tool is a Trivial Joke." 
-    echo "# That being said…"
-    echo "# The site APPEARS to be running the following technologies:"
-    echo "##############################################################"
-    echo " "
-    cat ./sitestack.txt
-else
-    echo " "
-    echo "No technologies were detected on this site."
-    echo " "
+    rm -f $STACKFILE
+fi
+
+if [ -f $OUTPUT ] ; then
+    rm -f $OUTPUT
+fi
+
+if [ -f $SITECONTENT ] ; then
+    rm -f $SITECONTENT
+fi
+
+if [ -f $SORTEDSITESTACK ] ; then
+    rm -f $SORTEDSITESTACK
 fi
