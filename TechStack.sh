@@ -169,7 +169,7 @@ fi
 # Check for HTTPS in redirect
 if grep -i "Location:" ./siteheaders.html | grep -qi https
 then
-    echo "[X] TLS found in headers."
+    echo "[X] TLS in URL or TLS redirect found in headers."
     echo "TLS" >> ./sitestack.txt
 fi
 
@@ -255,6 +255,72 @@ if grep -i "Server:" ./siteheaders.html | grep -qi github
 then
     echo "[X] Github found in headers."
     echo "Github" >> ./sitestack.txt
+fi
+
+###################
+## GSE Checks
+###################
+
+# Check for in GSE in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi gse
+then
+    echo "[X] GSEfound in headers."
+    echo "GSE" >> ./sitestack.txt
+fi
+
+###################
+## AMAZONS3 Checks
+###################
+
+# Check for in AmazonS3 in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi amazons3
+then
+    echo "[X] Amazon S3 found in headers."
+    echo "AmazonS3" >> ./sitestack.txt
+fi
+
+###################
+## BAIDU Checks
+###################
+
+# Check for in Baidu in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi bws
+then
+    echo "[X] Amazon S3 found in headers."
+    echo "BWS" >> ./sitestack.txt
+fi
+
+###################
+## ATS Checks
+###################
+
+# Check for in ATS in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi ats
+then
+    echo "[X] Apache ATS found in headers."
+    echo "ATS" >> ./sitestack.txt
+fi
+
+###################
+## SQUID Checks
+###################
+
+# Check for in ATS in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi squid
+then
+    echo "[X] Squid found in headers."
+    echo "Squid" >> ./sitestack.txt
+fi
+
+###################
+## WEIBO Checks
+###################
+
+# Check for in Weibo in headers
+if grep -i "Server:" ./siteheaders.html | grep -qi weibo
+then
+    echo "[X] Weibo found in headers."
+    echo "Weibo" >> ./sitestack.txt
 fi
 
 ########################
