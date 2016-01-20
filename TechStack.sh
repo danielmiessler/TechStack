@@ -336,6 +336,39 @@ then
     echo "GWS" >> ./sitestack.txt
 fi
 
+###################
+## UBUNTU Checks
+###################
+
+# Check for in Ubuntu in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi ubuntu
+then
+    echo "[X] Ubuntu found in headers."
+    echo "Ubuntu" >> ./sitestack.txt
+fi
+
+###################
+## PHP Checks
+###################
+
+# Check for in PHP in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi php
+then
+    echo "[X] PHP found in headers."
+    echo "PHP" >> ./sitestack.txt
+fi
+
+###################
+## EXPRESS Checks
+###################
+
+# Check for in Express in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi express
+then
+    echo "[X] Express found in headers."
+    echo "Express" >> ./sitestack.txt
+fi
+
 #####################################################################################
 # OUTPUT
 #####################################################################################
