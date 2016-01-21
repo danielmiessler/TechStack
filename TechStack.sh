@@ -562,6 +562,15 @@ fi
 # OUTPUT
 #####################################################################################
 
+########################
+# CLEANUP
+########################
+
+if [ -f $STACKFILE ] ; then
+    sort ./sitestack.txt > ./sortedsitestack.txt
+    uniq ./sortedsitestack.txt > ./sitestack.txt
+fi
+
 if [ -f $STACKFILE ] ; then
     echo " "
     cat art.txt
@@ -577,15 +586,6 @@ else
     echo " "
     echo "No technologies were detected on this site."
     echo " "
-fi
-
-########################
-# CLEANUP
-########################
-
-if [ -f $STACKFILE ] ; then
-    sort ./sitestack.txt > ./sortedsitestack.txt
-    uniq ./sortedsitestack.txt > ./sitestack.txt
 fi
 
 # Cleanup
