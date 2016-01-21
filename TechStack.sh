@@ -236,7 +236,7 @@ fi
 ###################
 
 # Check for PHP in headers
-if grep -i "X-Powered-By:" ./output.html | grep PHP
+if grep -i "X-Powered-By:" ./output.html | grep -qi PHP
 then
     echo "[X] PHP found in headers."
     echo "PHP" >> ./sitestack.txt
