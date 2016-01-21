@@ -162,6 +162,7 @@ if grep -i "Server:" ./output.html | grep -qi IIS
 then
     echo "[X] IIS found in headers."
     echo "IIS" >> ./sitestack.txt
+    echo "Windows" >> ./sitestack.txt
 fi
 
 ###################
@@ -186,11 +187,43 @@ fi
 ###################
 
 # Check for .NET in headers
-if grep -i "X-Powered-By:" ./output.html | grep NET
+if grep -i "X-Powered-By:" ./output.html | grep -qi ".NET"
 then
     echo "[X] .NET found in headers."
     echo ".NET" >> ./sitestack.txt
 fi
+
+###################
+## GENTOO CHECKS
+###################
+
+# Check for Gentoo in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi gentoo
+then
+    echo "[X] Gentoo found in headers."
+    echo "Gentoo" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
+fi
+
+###################
+## DEBIAN CHECKS
+###################
+
+# Check for Debian in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi dotdeb
+then
+    echo "[X] Debian found in headers."
+    echo "Debian" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
+fi
+
+if grep -i "X-Powered-By:" ./output.html | grep -qi "deb*u"
+then
+    echo "[X] Debian found in headers."
+    echo "Debian" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
+fi
+
 
 ###################
 ## PHP CHECKS
@@ -345,6 +378,7 @@ if grep -i "X-Powered-By:" ./output.html | grep -qi ubuntu
 then
     echo "[X] Ubuntu found in headers."
     echo "Ubuntu" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
 fi
 
 ###################
@@ -367,6 +401,29 @@ if grep -i "X-Powered-By:" ./output.html | grep -qi express
 then
     echo "[X] Express found in headers."
     echo "Express" >> ./sitestack.txt
+fi
+
+###################
+## HHVM Checks
+###################
+
+# Check for in HHVM in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi hhvm
+then
+    echo "[X] HHVM found in headers."
+    echo "HHVM" >> ./sitestack.txt
+fi
+
+###################
+## W3 Total Cache Checks
+###################
+
+# Check for in W3 Total Cache in headers
+if grep -i "X-Powered-By:" ./output.html | grep -qi "w3 total cache"
+then
+    echo "[X] W3 Total Cache found in headers."
+    echo "W3TotalCache" >> ./sitestack.txt
+    echo "Wordpress" >> ./sitestack.txt
 fi
 
 #####################################################################################
