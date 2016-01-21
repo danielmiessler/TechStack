@@ -224,6 +224,12 @@ then
     echo "Linux" >> ./sitestack.txt
 fi
 
+if grep -i "Server:" ./output.html | grep -qi debian
+then
+    echo "[X] Debian found in headers."
+    echo "Debian" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
+fi
 
 ###################
 ## PHP CHECKS
@@ -234,6 +240,17 @@ if grep -i "X-Powered-By:" ./output.html | grep PHP
 then
     echo "[X] PHP found in headers."
     echo "PHP" >> ./sitestack.txt
+fi
+
+###################
+## FREEBSD CHECKS
+###################
+
+# Check for FreeBSD in headers
+if grep -i "Server:" ./output.html | grep freebsd
+then
+    echo "[X] FreeBSD found in headers."
+    echo "FreeBSD" >> ./sitestack.txt
 fi
 
 ###################
@@ -415,7 +432,7 @@ then
 fi
 
 ###################
-## W3 Total Cache Checks
+## W3 TOTAL CACHE CHECKS
 ###################
 
 # Check for in W3 Total Cache in headers
@@ -424,6 +441,121 @@ then
     echo "[X] W3 Total Cache found in headers."
     echo "W3TotalCache" >> ./sitestack.txt
     echo "Wordpress" >> ./sitestack.txt
+fi
+
+###################
+## TOMCAT CHECKS
+###################
+
+# Check for in Tomcat in headers
+if grep -i "Server:" ./output.html | grep -qi tomcat
+then
+    echo "[X] Tomcat found in headers."
+    echo "Tomcat" >> ./sitestack.txt
+    echo "Apache" >> ./sitestack.txt
+fi
+
+###################
+## SUSE CHECKS
+###################
+
+# Check for Suse in headers
+if grep -i "Server:" ./output.html | grep -qi suse
+then
+    echo "[X] Tomcat found in headers."
+    echo "Tomcat" >> ./sitestack.txt
+    echo "Apache" >> ./sitestack.txt
+fi
+
+###################
+## CENTOS CHECKS
+###################
+
+# Check for CentOS in headers
+if grep -i "Server:" ./output.html | grep -qi centos
+then
+    echo "[X] CentOS found in headers."
+    echo "CentOS" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
+fi
+
+###################
+## REDHAT CHECKS
+###################
+
+# Check for Red Hat in headers
+if grep -i "Server:" ./output.html | grep -qi "red hat"
+then
+    echo "[X] Red Hat found in headers."
+    echo "Redhat" >> ./sitestack.txt
+    echo "Linux" >> ./sitestack.txt
+fi
+
+###################
+## UNIX CHECKS
+###################
+
+# Check for Unix in headers
+if grep -i "Server:" ./output.html | grep -qi unix
+then
+    echo "[X] Unix found in headers."
+    echo "Unix" >> ./sitestack.txt
+fi
+
+###################
+## ORACLE CHECKS
+###################
+
+# Check for Oracle in headers
+if grep -i "Server:" ./output.html | grep -qi oracle
+then
+    echo "[X] Oracle App Server found in headers."
+    echo "OracleAppServer" >> ./sitestack.txt
+fi
+
+###################
+## SUCURI CHECKS
+###################
+
+# Check for Sucuri in headers
+if grep -i "Server:" ./output.html | grep -qi sucuri
+then
+    echo "[X] Sucuri found in headers."
+    echo "Sucuri" >> ./sitestack.txt
+fi
+
+###################
+## VARNISH CHECKS
+###################
+
+# Check for Varnish in headers
+if grep -i "Server:" ./output.html | grep -qi varnish
+then
+    echo "[X] Varnish found in headers."
+    echo "Varnish" >> ./sitestack.txt
+fi
+
+###################
+## LIGHTHTTPD CHECKS
+###################
+
+# Check for Light HTTPD in headers
+if grep -i "Server:" ./output.html | grep -qi lighttpd
+then
+    echo "[X] Light HTTPD found in headers."
+    echo "LightHTTPD" >> ./sitestack.txt
+fi
+
+###################
+## SUN CHECKS
+###################
+
+# Check for Sun in headers
+if grep -i "Server:" ./output.html | grep -qi sun
+then
+    echo "[X] Sun found in headers."
+    echo "Sun" >> ./sitestack.txt
+    echo "Unix" >> ./sitestack.txt
 fi
 
 #####################################################################################
