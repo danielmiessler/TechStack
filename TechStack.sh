@@ -410,17 +410,6 @@ then
 fi
 
 ###################
-## EXPRESS Checks
-###################
-
-# Check for in Express in headers
-if grep -i "X-Powered-By:" ./output.html | grep -qi express
-then
-    echo "[X] Express found in headers."
-    echo "Express" >> ./sitestack.txt
-fi
-
-###################
 ## HHVM Checks
 ###################
 
